@@ -22,10 +22,25 @@
         android:hint="@string/your_toot_goes_here"
         android:imeOptions="normal"
         android:inputType="textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine|textImeMultiLine"
-        android:scrollbars="vertical"/>
+        android:scrollbars="vertical" />
+
+
+    <GridView
+        android:id="@+id/attachment_grid"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:numColumns="auto_fit"
+        android:stretchMode="columnWidth"
+        android:layout_weight="1"
+        >
+
+
+    </GridView>
+
+
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
@@ -38,11 +53,32 @@
 
         <ImageButton
             android:id="@+id/set_visibility_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="39dp"
+            android:layout_height="match_parent"
             android:layout_marginStart="8dp"
             android:background="@null"
             android:onClick="showVisibilityMenu"
-            android:src="@drawable/ic_language_black_24dp"/>
+            android:src="@drawable/ic_language_black_24dp" />
+
+        <ImageButton
+            android:id="@+id/camera"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="@dimen/post_button"
+            android:layout_height="@dimen/post_button"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:contentDescription="@string/take_photo"
+            android:onClick="takePhoto"
+            android:src="@drawable/camera" />
+
+        <ImageButton
+            android:id="@+id/attach"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="@dimen/post_button"
+            android:layout_height="@dimen/post_button"
+            android:onClick="showMediaPicker"
+            android:contentDescription="@string/attachment_media"
+            android:src="@drawable/attach"/>
+
     </LinearLayout>
 </LinearLayout>

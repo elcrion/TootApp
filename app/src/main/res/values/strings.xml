@@ -19,4 +19,6 @@
     <string name="favouritedBy">"%1$s favourited your status"</string>
     <string name="boostedByNotification">"%1$s boosted your status"</string>
     <string name="followedBy">"%1$s followed you"</string>
+    <string name="take_photo" translatable="false">Take Photo</string>
+    <string name="attachment_media" translatable="false">Attachment media</string>
 </resources>

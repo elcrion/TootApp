@@ -1,11 +1,28 @@
 package xyz.gsora.toot.Mastodon;
 
-import MastodonTypes.*;
-import io.reactivex.Observable;
-import retrofit2.Response;
-import retrofit2.http.*;
-
+import java.util.List;
 import java.util.Map;
+
+import MastodonTypes.Account;
+import MastodonTypes.AppCreationResponse;
+import MastodonTypes.MediaAttachment;
+import MastodonTypes.Notification;
+import MastodonTypes.OAuthResponse;
+import MastodonTypes.Status;
+import io.reactivex.Observable;
+import okhttp3.MultipartBody;
+import retrofit2.Response;
+import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Multipart;
+import retrofit2.http.POST;
+import retrofit2.http.Part;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
+import retrofit2.http.Url;
 
 /**
  * Created by gsora on 4/20/17.
@@ -35,15 +52,40 @@ public interface API {
     );
 
     @FormUrlEncoded
+    @GET("api/v1/statuses")
+    Observable<Response<Status>> getStatus(
+                @Header("Authorization") String authBearer,
+                @FieldMap(encoded = false) Map<String, Object> fields
+    );
+
+
+    @FormUrlEncoded
+    @POST("api/v1/statuses")
+    Observable<Response<Status>> postStatusWithMedia(
+            @Header("Authorization") String authBearer,
+            @FieldMap(encoded = false) Map<String, Object> fields,
+            @Field("media_ids[]") List<String> media_ids
+    );
+
+    @FormUrlEncoded
     @POST("api/v1/statuses")
     Observable<Response<Status>> postStatus(
             @Header("Authorization") String authBearer,
             @FieldMap(encoded = false) Map<String, Object> fields
     );
 
+
+
     @GET("api/v1/timelines/home")
     Observable<Response<Status[]>> getHomeTimeline(
             @Header("Authorization") String authBearer
+    );
+
+    @Multipart
+    @POST("api/v1/media")
+    Observable<Response<MediaAttachment>> postMedia(
+            @Header("Authorization") String authBearer,
+            @Part MultipartBody.Part filePart
     );
 
     @GET

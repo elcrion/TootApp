@@ -1,6 +1,5 @@
 package xyz.gsora.toot;
 
-import MastodonTypes.MediaAttachment;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,7 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+
 import com.bumptech.glide.Glide;
+
+import MastodonTypes.MediaAttachment;
 import io.realm.RealmList;
 
 /**
@@ -46,7 +48,7 @@ public class MediaAttachmentsAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // 1
+        // 
         final MediaAttachment m = attachments.get(position);
 
         // 2
@@ -56,7 +58,7 @@ public class MediaAttachmentsAdapter extends BaseAdapter {
         }
 
         // 3
-        final ImageView imageView = (ImageView) convertView.findViewById(R.id.mediaPreviewImage);
+        final ImageView imageView = convertView.findViewById(R.id.mediaPreviewImage);
 
         // 4
         Glide

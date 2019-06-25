@@ -3,7 +3,7 @@ package xyz.gsora.toot;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
-import static xyz.gsora.toot.Timeline.*;
+import static xyz.gsora.toot.Timeline.Companion;
 
 /**
  * Created by gsora on 5/5/17.
@@ -17,19 +17,19 @@ public class RealmBuilder {
 
         switch (timelineContent) {
             case TIMELINE_MAIN:
-                config = new RealmConfiguration.Builder().name(TIMELINE_MAIN).build();
+                config = new RealmConfiguration.Builder().name(Companion.getTIMELINE_MAIN()).build();
                 break;
             case TIMELINE_LOCAL:
-                config = new RealmConfiguration.Builder().name(TIMELINE_LOCAL).build();
+                config = new RealmConfiguration.Builder().name(Companion.getTIMELINE_LOCAL()).build();
                 break;
             case TIMELINE_FEDERATED:
-                config = new RealmConfiguration.Builder().name(TIMELINE_FEDERATED).build();
+                config = new RealmConfiguration.Builder().name(Companion.getTIMELINE_FEDERATED()).build();
                 break;
             case FAVORITES:
-                config = new RealmConfiguration.Builder().name(FAVORITES).build();
+                config = new RealmConfiguration.Builder().name(Companion.getFAVORITES()).build();
                 break;
             case NOTIFICATIONS:
-                config = new RealmConfiguration.Builder().name(NOTIFICATIONS).build();
+                config = new RealmConfiguration.Builder().name(Companion.getNOTIFICATIONS()).build();
                 break;
         }
 
