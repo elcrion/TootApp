@@ -274,11 +274,23 @@ class StatusesListAdapter(data: RealmResults<Status>, locale: String, private va
 
         imageView?.setOnClickListener {
             val imagePopup = ImagePopup(parentCtx)
-            imagePopup.initiatePopupWithGlide(url, ImagePopup.Type.video)
+            imagePopup.initiatePopupWithGlide(url!!, ImagePopup.Type.image)
             imagePopup.viewPopup()
         }
 
     }
+
+
+    private fun getType(mime:String):ImagePopup.Type{
+
+        return   when {
+            mime.startsWith("image") -> ImagePopup.Type.image
+            mime.startsWith("video") -> ImagePopup.Type.video
+            else -> ImagePopup.Type.gif
+        }
+
+    }
+
 
     private fun putImageInContainer(url: String?, index: Int, holder: RowViewHolder, sensitiveContent: Boolean) {
         when (index) {

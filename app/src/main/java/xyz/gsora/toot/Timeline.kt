@@ -231,7 +231,7 @@ class Timeline : Fragment() {
     }
 
     private fun updateData(statuses: Response<Array<Status>>) {
-        if (statuses.body().size > 0) { // check if there are statuses first
+        if (statuses.body().isNotEmpty()) { // check if there are statuses first
             debugCallNums()
             realm!!.executeTransaction { r: Realm ->
                 for (s in statuses.body()) {
@@ -253,7 +253,7 @@ class Timeline : Fragment() {
     }
 
     private fun updateNotificationsData(notifications: Response<Array<Notification>>) {
-        if (notifications.body().size > 0) { // check if there are statuses first
+        if (notifications.body().isNotEmpty()) { // check if there are statuses first
             debugCallNums()
             realm!!.executeTransaction { r: Realm ->
                 for (n in notifications.body()) {
