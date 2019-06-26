@@ -53,7 +53,7 @@ class SendToot : AppCompatActivity() {
     private val REQUEST_PICK_MEDIA = 100
     @BindView(R.id.attachment_grid)
     lateinit var  attachment_grid:GridView
-    private var attachments:ArrayList<Uri> ?= ArrayList()
+    private var attachments:ArrayList<Uri> = ArrayList()
     private var attachment_adapter: AttachmentAdapter ?=null
     private  var attachmentIds:ArrayList<String> = ArrayList()
 
@@ -105,7 +105,7 @@ class SendToot : AppCompatActivity() {
         Log.d("Tag", "Post attachment Successful: post ok!")
         attachmentIds.add(response.body().id.toString())
 
-        if(attachmentIds.size == attachments?.size){
+        if(attachmentIds.size == attachments.size){
 
                 postStatus()
         }
@@ -128,7 +128,7 @@ class SendToot : AppCompatActivity() {
     @NeedsPermission(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
     private fun sendAttachments() {
 
-        attachments?.forEach{ attachment ->
+        attachments.forEach{ attachment ->
 
             var mimeType = this.contentResolver.getType(attachment)
             val bytes = contentResolver.openInputStream(attachment).use { it.readBytes() }
@@ -205,7 +205,7 @@ class SendToot : AppCompatActivity() {
                 .setMessage("Do you want to delete this item ?")
                 .setCancelable(true)
                 .setPositiveButton("yes", { dialog, which ->
-                    attachments?.remove(item)
+                    attachments.remove(item)
                     updateAdapter()
                 })
                 .show()
@@ -291,12 +291,12 @@ class SendToot : AppCompatActivity() {
         when {
             requestCode == REQUEST_PICK_MEDIA && resultCode == Activity.RESULT_OK && data?.data != null -> {
 
-                    attachments?.add(data.data)
+                attachments.add(data.data)
 
             }
             requestCode == REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK -> {
                 photoUri?.let {
-                   attachments?.add(it)
+                    attachments.add(it)
                 }
             }
         }
