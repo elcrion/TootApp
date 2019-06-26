@@ -13,6 +13,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.MimeTypeMap
 import android.widget.ImageView
 import android.widget.PopupWindow
 import android.widget.VideoView
@@ -54,6 +55,8 @@ class ImagePopup : AppCompatImageView {
         this.backgroundColor = backgroundColor
     }
 
+
+
     fun initiatePopup(drawable: Drawable) {
 
         try {
@@ -80,11 +83,25 @@ class ImagePopup : AppCompatImageView {
     }
 
 
+
+
+    private fun getType(url:String):ImagePopup.Type{
+        val extension = MimeTypeMap.getFileExtensionFromUrl(url)
+        val mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension)
+        return   when {
+            mime.startsWith("image") -> ImagePopup.Type.image
+            mime.startsWith("video") -> Type.video
+            else -> ImagePopup.Type.gif
+        }
+
+    }
+
+
     /**
      * optimize version
      * @param imageUrl
      */
-    fun initiatePopupWithGlide(imageUrl: String, type: Type) {
+    fun initiatePopupWithGlide(imageUrl: String) {
 
         try {
 
@@ -97,9 +114,11 @@ class ImagePopup : AppCompatImageView {
             imageView = layout.findViewById(R.id.imageView)
             videoView = layout.findViewById(R.id.videoView)
 
+            val type  = getType(imageUrl)
+
             when (type) {
 
-                ImagePopup.Type.video -> {
+                Type.video -> {
 
                     imageView!!.visibility = View.GONE
                     videoView!!.visibility = View.VISIBLE
@@ -109,7 +128,7 @@ class ImagePopup : AppCompatImageView {
                     videoView!!.start()
                 }
 
-                ImagePopup.Type.gif -> {
+                Type.gif -> {
 
                     imageView!!.visibility = View.VISIBLE
                     videoView!!.visibility = View.GONE
@@ -119,7 +138,7 @@ class ImagePopup : AppCompatImageView {
                             .into(imageView!!)
                 }
 
-                ImagePopup.Type.image -> {
+                Type.image -> {
                     imageView!!.visibility = View.VISIBLE
                     videoView!!.visibility = View.GONE
                     Glide.with(context)

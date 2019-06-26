@@ -86,6 +86,8 @@ class Timeline : Fragment() {
     }
 
 
+
+
     private fun setUpRecyclerView(locale: String) {
         if (selectedTimeline != TimelineContent.NOTIFICATIONS) {
             val statuses = realm!!.where(Status::class.java).findAllSorted("id", Sort.DESCENDING)

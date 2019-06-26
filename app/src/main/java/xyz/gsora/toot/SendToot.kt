@@ -73,17 +73,6 @@ class SendToot : AppCompatActivity() {
         attachment_adapter= AttachmentAdapter(this,attachments)
         attachment_grid.adapter = attachment_adapter
 
-        attachment_grid.onItemClickListener = AdapterView.OnItemClickListener {parent,view,position,id ->
-
-            var  selected:Uri = parent.getItemAtPosition(position) as Uri
-            val imagePopup = ImagePopup(this@SendToot)
-            imagePopup.initiatePopupWithGlide(selected.toString(), ImagePopup.Type.image)
-            imagePopup.viewPopup()
-
-
-        }
-
-
         attachment_grid.onItemLongClickListener = AdapterView.OnItemLongClickListener{parent,view,position,id ->
 
             var  selected:Uri = parent.getItemAtPosition(position) as Uri

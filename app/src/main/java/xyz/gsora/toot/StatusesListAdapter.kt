@@ -5,6 +5,8 @@ import MastodonTypes.Status
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
+import android.support.customtabs.CustomTabsIntent
 import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,9 +18,12 @@ import com.bumptech.glide.Glide
 import io.realm.RealmList
 import io.realm.RealmRecyclerViewAdapter
 import io.realm.RealmResults
+import xyz.gsora.toot.Mastodon.CustomTabsHelper
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+
+
 
 /**
  * Created by gsora on 4/9/17.
@@ -229,7 +234,8 @@ class StatusesListAdapter(data: RealmResults<Status>, locale: String, private va
             holder.fourthImage?.visibility = View.GONE
 
             for (i in mediaAttachment.indices) {
-                putImageInContainer(mediaAttachment[i].previewUrl, i, holder, sensitiveContent)
+                putImageInContainer(mediaAttachment[i].previewUrl,mediaAttachment[i].url, i, holder, sensitiveContent)
+
             }
             when (mediaAttachment.size - 1) {
                 0, 1 -> holder.imageContainerFirst?.visibility = View.VISIBLE
@@ -259,45 +265,42 @@ class StatusesListAdapter(data: RealmResults<Status>, locale: String, private va
         holder.imageContainerSecond?.layoutParams = l
     }
 
-    private fun setImageOrSensitive(url: String?, imageView: ImageView?, sensitiveContent: Boolean) {
+    private fun setImageOrSensitive(previewUrl: String?,url: String?, imageView: ImageView, sensitiveContent: Boolean) {
         if (!sensitiveContent) {
             Glide
                     .with(parentCtx)
-                    .load(url)
+                    .load(previewUrl)
                     .crossFade()
                     .into(imageView)
         } else {
-            imageView?.setImageDrawable(ColorDrawable(Color.GRAY))
+            imageView.setImageDrawable(ColorDrawable(Color.GRAY))
         }
-        imageView?.visibility = View.VISIBLE
+        imageView.visibility = View.VISIBLE
 
 
-        imageView?.setOnClickListener {
-            val imagePopup = ImagePopup(parentCtx)
-            imagePopup.initiatePopupWithGlide(url!!, ImagePopup.Type.image)
-            imagePopup.viewPopup()
-        }
+        imageView.setOnClickListener {
 
-    }
+            tabsIntent.launchUrl(parentCtx, Uri.parse(url))
 
-
-    private fun getType(mime:String):ImagePopup.Type{
-
-        return   when {
-            mime.startsWith("image") -> ImagePopup.Type.image
-            mime.startsWith("video") -> ImagePopup.Type.video
-            else -> ImagePopup.Type.gif
         }
 
     }
 
 
-    private fun putImageInContainer(url: String?, index: Int, holder: RowViewHolder, sensitiveContent: Boolean) {
+
+
+
+    private val tabsIntent: CustomTabsIntent by lazy {
+        CustomTabsHelper.createTabsIntent(parentCtx)
+    }
+
+
+    private fun putImageInContainer(previewUrl: String?,url: String?,index: Int, holder: RowViewHolder, sensitiveContent: Boolean) {
         when (index) {
-            0 -> setImageOrSensitive(url, holder.firstImage, sensitiveContent)
-            1 -> setImageOrSensitive(url, holder.secondImage, sensitiveContent)
-            2 -> setImageOrSensitive(url, holder.thirdImage, sensitiveContent)
-            3 -> setImageOrSensitive(url, holder.fourthImage, sensitiveContent)
+            0 -> holder.firstImage?.let { setImageOrSensitive(previewUrl,url, it, sensitiveContent) }
+            1 -> holder.secondImage?.let { setImageOrSensitive(previewUrl,url, it, sensitiveContent) }
+            2 -> holder.thirdImage?.let { setImageOrSensitive(previewUrl,url, it, sensitiveContent) }
+            3 -> holder.fourthImage?.let { setImageOrSensitive(previewUrl,url, it, sensitiveContent) }
         }
     }
 
