@@ -108,6 +108,20 @@ public interface API {
             @Query("local") String local
     );
 
+    @GET("api/v1/timelines/list/{listId}")
+    Observable<Response<Status[]>> getListTimeline(
+            @Header("Authorization") String authBearer,
+            @Query("listId") String listId
+    );
+
+
+    @GET("api/v1/timelines/tag/{hashtag}")
+    Observable<Response<Status[]>> getHashtagTimeline(
+            @Header("Authorization") String authBearer,
+            @Query("hashtag") String hashtag
+    );
+
+
     @GET("api/v1/favourites")
     Observable<Response<Status[]>> getFavorites(
             @Header("Authorization") String authBearer

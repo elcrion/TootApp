@@ -18,11 +18,13 @@ class TimelinesStatusAdapter internal constructor(fragmentManager: FragmentManag
             2 -> return Timeline.newInstance(Timeline.TimelineContent.TIMELINE_LOCAL)
             3 -> return Timeline.newInstance(Timeline.TimelineContent.TIMELINE_FEDERATED)
             4 -> return Timeline.newInstance(Timeline.TimelineContent.FAVORITES)
+            5 -> return Timeline.newInstance(Timeline.TimelineContent.LIST)
+            6 -> return Timeline.newInstance(Timeline.TimelineContent.HASHCODE)
             else -> return null
         }
     }
 
     override fun getCount(): Int {
-        return 5
+        return 7
     }
 }

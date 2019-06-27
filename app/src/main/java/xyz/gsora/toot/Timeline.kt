@@ -133,14 +133,8 @@ class Timeline : Fragment() {
     private fun doodad(page: Boolean?): Observable<Response<Array<Status>>> {
         val statuses: Observable<Response<Array<Status>>>
         if (nextPage == null || page == false) {
-            if (BuildConfig.DEBUG) {
-                Log.d(TAG, "no previous page, loading the first one")
-            }
             statuses = m!!.homeTimeline
         } else {
-            if (BuildConfig.DEBUG) {
-                Log.d(TAG, "got previous page, loading it!")
-            }
             statuses = m!!.getHomeTimeline(nextPage!!)
         }
 
@@ -151,39 +145,28 @@ class Timeline : Fragment() {
         var statuses: Observable<Response<Array<Status>>>? = null
         when (selectedTimeline) {
             TimelineContent.TIMELINE_MAIN -> statuses = doodad(page)
-            TimelineContent.TIMELINE_LOCAL -> if (nextPage == null || (page == false)) {
-                if (BuildConfig.DEBUG) {
-                    Log.d(TAG, "no previous page, loading the first one")
-                }
-                statuses = m!!.localTimeline
+            TimelineContent.TIMELINE_LOCAL -> statuses = if (nextPage == null || (page == false)) {
+                m!!.localTimeline
             } else {
-                if (BuildConfig.DEBUG) {
-                    Log.d(TAG, "got previous page, loading it!")
-                }
-                statuses = m!!.getLocalTimeline(nextPage!!)
+                m!!.getLocalTimeline(nextPage!!)
             }
-            TimelineContent.TIMELINE_FEDERATED -> if (nextPage == null || ( page == false)) {
-                if (BuildConfig.DEBUG) {
-                    Log.d(TAG, "no previous page, loading the first one")
-                }
-                statuses = m!!.publicTimeline
+            TimelineContent.TIMELINE_FEDERATED -> statuses = if (nextPage == null || ( page == false)) {
+                m!!.publicTimeline
             } else {
-                if (BuildConfig.DEBUG) {
-                    Log.d(TAG, "got previous page, loading it!")
-                }
-                statuses = m!!.getPublicTimeline(nextPage!!)
+                m!!.getPublicTimeline(nextPage!!)
             }
-            TimelineContent.FAVORITES -> if (nextPage == null || ( page == false)) {
-                if (BuildConfig.DEBUG) {
-                    Log.d(TAG, "no previous page, loading the first one")
-                }
-                statuses = m!!.favorites
+            TimelineContent.FAVORITES -> statuses = if (nextPage == null || ( page == false)) {
+                m!!.favorites
             } else {
-                if (BuildConfig.DEBUG) {
-                    Log.d(TAG, "got previous page, loading it!")
-                }
-                statuses = m!!.getFavorites(nextPage!!)
+                m!!.getFavorites(nextPage!!)
             }
+            TimelineContent.LIST -> statuses = if (nextPage == null || ( page == false)) {
+                m!!.list
+            } else {
+                m!!.getList(nextPage!!)
+            }
+
+
         }
 
         return statuses
@@ -286,7 +269,9 @@ class Timeline : Fragment() {
         TIMELINE_LOCAL,
         TIMELINE_FEDERATED,
         FAVORITES,
-        NOTIFICATIONS
+        NOTIFICATIONS,
+        LIST,
+        HASHCODE
     }
 
     /**
@@ -310,6 +295,8 @@ class Timeline : Fragment() {
         val TIMELINE_FEDERATED = "Federated timeline"
         val NOTIFICATIONS = "Notifications"
         val FAVORITES = "Favorites"
+        val Hashcode = "HASHCODE"
+        val List = "List"
         private val TAG = TimelineFragmentContainer::class.java.simpleName
 
         internal fun newInstance(timelineContent: TimelineContent): Timeline {

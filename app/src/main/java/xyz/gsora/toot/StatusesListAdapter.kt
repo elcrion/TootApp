@@ -112,13 +112,13 @@ class StatusesListAdapter(data: RealmResults<Status>, locale: String, private va
         // if getThisIsABoost(), cw == null, it's a boost
         if (toot!!.reblog != null) {
             Log.d(TAG, "getItemViewType: got boost, spoilerText len:" + toot.spoilerText!!.length)
-            return if (toot.spoilerText!!.length > 0) {
+            return if (toot.spoilerText!!.isNotEmpty()) {
                 TOOT_BOOST_CW
             } else TOOT_BOOST
 
         }
 
-        return if (toot.spoilerText!!.length > 0) {
+        return if (toot.spoilerText!!.isNotEmpty()) {
             // cw != null, it's a toot+cw
             TOOT_CW
         } else TOOT
@@ -134,6 +134,8 @@ class StatusesListAdapter(data: RealmResults<Status>, locale: String, private va
                 .load(avatar)
                 .crossFade()
                 .into(holder.avatar)
+
+        holder.avatar.setOnClickListener {Timeline.newInstance(Timeline.TimelineContent.HASHCODE) }
 
         // format the timestamp according to the device's setting
         val fmt: SimpleDateFormat

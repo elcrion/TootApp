@@ -84,6 +84,19 @@ class Mastodon private constructor() {
                 Toot.buildBearer()
         )
 
+
+    /**
+     * Returns the first page of user's  list .
+     *
+     * @return an array of Notification.
+     */
+    val list: Observable<Response<Array<Status>>>
+        get() = buildRxRetrofit().create(API::class.java).getListTimeline(
+                Toot.buildBearer(),
+                "list"
+        )
+
+
     /**
      * An OkHttpClient with logging capabilities
      *
@@ -263,6 +276,32 @@ class Mastodon private constructor() {
     }
 
     /**
+     * Returns the page of the user's list messages by list ID
+     *
+     * @param url page to retrieve
+     * @return an array of Status containing the user's favorites at the given URL
+     */
+    fun getList(url: String): Observable<Response<Array<Status>>> {
+        return buildRxRetrofit().create(API::class.java).getListTimeline(
+                Toot.buildBearer(),
+                url
+        )
+    }
+
+    /**
+     * Returns the page of the user's list messages by hashtag of selected user
+     *
+     * @param url page to retrieve
+     * @return an array of Status containing the user's favorites at the given URL
+     */
+    fun getHash(url: String): Observable<Response<Array<Status>>> {
+        return buildRxRetrofit().create(API::class.java).getHashtagTimeline(
+                Toot.buildBearer(),
+                url
+        )
+    }
+
+    /**
      * Returns the selected page of user's notification.
      *
      * @param url page to retrieve
@@ -336,6 +375,8 @@ class Mastodon private constructor() {
         PRIVATE,
         UNLISTED
     }
+
+
 
     companion object {
 

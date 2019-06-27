@@ -54,6 +54,7 @@ class TimelineFragmentContainer : AppCompatActivity() {
             Log.d(TAG, Toot.debugSettingsStorage())
         }
 
+
         // setup the viewpager
         viewPagerAdapter = TimelinesStatusAdapter(supportFragmentManager)
         viewPager.adapter = viewPagerAdapter

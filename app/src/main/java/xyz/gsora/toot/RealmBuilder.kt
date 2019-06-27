@@ -22,6 +22,8 @@ object RealmBuilder {
             Timeline.TimelineContent.TIMELINE_FEDERATED -> config = RealmConfiguration.Builder().name(Companion.TIMELINE_FEDERATED).build()
             Timeline.TimelineContent.FAVORITES -> config = RealmConfiguration.Builder().name(Companion.FAVORITES).build()
             Timeline.TimelineContent.NOTIFICATIONS -> config = RealmConfiguration.Builder().name(Companion.NOTIFICATIONS).build()
+            Timeline.TimelineContent.List -> config = RealmConfiguration.Builder().name(Companion.List).build()
+            Timeline.TimelineContent.HASHCODE -> config = RealmConfiguration.Builder().name(Companion.Hashcode).build()
         }
 
         return Realm.getInstance(config!!)
